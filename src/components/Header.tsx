@@ -1,8 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "./AuthProvider";
 
 export const Header = () => {
   const navigate = useNavigate();
+  const { session } = useAuth();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/login");
+  };
 
   return (
     <header className="w-full bg-white border-b border-gray-200">
@@ -29,6 +37,14 @@ export const Header = () => {
           >
             Watch Ads
           </Button>
+          {session && (
+            <Button
+              variant="outline"
+              onClick={handleSignOut}
+            >
+              Sign Out
+            </Button>
+          )}
         </nav>
       </div>
     </header>

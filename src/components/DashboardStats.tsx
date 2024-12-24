@@ -1,9 +1,26 @@
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "./AuthProvider";
 
 export const DashboardStats = () => {
-  // This will be replaced with real data once we integrate with Supabase
-  const isLoading = false;
+  const { session } = useAuth();
+
+  const { data: profile, isLoading } = useQuery({
+    queryKey: ["profile", session?.user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", session?.user?.id)
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!session?.user?.id,
+  });
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -13,7 +30,7 @@ export const DashboardStats = () => {
           <Skeleton className="h-10 w-24 mt-2" />
         ) : (
           <>
-            <p className="text-3xl font-bold text-primary">$0.00</p>
+            <p className="text-3xl font-bold text-primary">${profile?.total_earnings?.toFixed(2) || "0.00"}</p>
             <p className="text-sm text-gray-500 mt-2">Lifetime earnings</p>
           </>
         )}

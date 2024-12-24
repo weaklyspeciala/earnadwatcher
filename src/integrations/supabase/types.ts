@@ -9,7 +9,74 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      ad_views: {
+        Row: {
+          ad_type: string
+          earnings: number
+          id: string
+          status: string | null
+          user_id: string
+          viewed_at: string
+        }
+        Insert: {
+          ad_type: string
+          earnings: number
+          id?: string
+          status?: string | null
+          user_id: string
+          viewed_at?: string
+        }
+        Update: {
+          ad_type?: string
+          earnings?: number
+          id?: string
+          status?: string | null
+          user_id?: string
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_views_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          ads_watched: number | null
+          available_balance: number | null
+          avatar_url: string | null
+          created_at: string
+          id: string
+          total_earnings: number | null
+          updated_at: string
+          username: string | null
+        }
+        Insert: {
+          ads_watched?: number | null
+          available_balance?: number | null
+          avatar_url?: string | null
+          created_at?: string
+          id: string
+          total_earnings?: number | null
+          updated_at?: string
+          username?: string | null
+        }
+        Update: {
+          ads_watched?: number | null
+          available_balance?: number | null
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          total_earnings?: number | null
+          updated_at?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
