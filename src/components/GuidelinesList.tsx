@@ -9,6 +9,10 @@ export const GuidelinesList = () => {
     "Don't use automated tools or scripts",
     "One account per person",
     "Report any technical issues immediately",
+    "Maintain a stable internet connection",
+    "Keep your browser and system up to date",
+    "Don't use VPNs or proxy services",
+    "Complete any required verification steps",
   ];
 
   return (
